@@ -15,13 +15,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 	<link rel="stylesheet" href="lib/reveal.js-2.6.1/css/reveal.min.css">
-	<link rel="stylesheet" href="lib/reveal.js-2.6.1/css/theme/default.css" id="theme">
+	<link rel="stylesheet" href="lib/reveal.js-2.6.1/css/theme/simple.css" id="theme">
 
 	<!-- For syntax highlighting -->
 	<link rel="stylesheet" href="lib/zenburn.css">
-
-	<!-- If the query includes 'print-pdf', use the PDF print sheet -->
-	<link rel="stylesheet" href="lib/reveal.js-2.6.1/css/print/paper.css" type="text/css" media="print">
 
 	<!--[if lt IE 9]>
 	<script src="lib/js/html5shiv.js"></script>
@@ -41,7 +38,18 @@
     	<aside class="notes">Sr UI Developer at Macys.com, passionate about humans and machines.</aside>
     </section>
     <section>
+    	<h2>Overview</h2>
+    	<ul>
+    		<li>Brief overview of testing</li>
+    		<li>Testing Models</li>
+    		<li>Testing Views</li>
+		</ul>
+    </section>
+    <section>
     	<h2>Why test?</h2>
+	</section>
+	<section>
+		<h3>Code is for people</h3>
     	<ul>
     		<li>set expectations</li>
     		<li>think through the steps</li>
@@ -50,7 +58,51 @@
     		<li>ensure ease of upgrades and deprecations</li>
     	</ul>
     </section>
+    <section>
+    	<h2><a href="http://jasmine.github.io/" target="_blank">Jasmine</a></h2>
+	</section>
+	<section>
+    	<h3><code>describe</code>, <code>it</code>, and <code>expect</code></h3>
+    	<p>Suites and specs are written with strings in plain English that describe exactly what is going on to the human developer user</p>
+	</section>
+	<section>
+		<h3>example</h3>
+    	<p>In your spec file</p>
+    	<pre><code>describe("A Backbone Model", function() {
+  it("should have an initialize method", function() {
+    expect(myModel.initialize).toBeDefined();
+  });
+});</code></pre>
+		<p>In your src file</p>
+		<pre><code>var MyModel = Backbone.Model.extend(),
+    myModel = new MyModel();</code></pre>
+    </section>
+    <section>
+    	<h2><a href="http://jasmine.github.io/" target="_blank">Jasmine</a></h2>
+    	<p><code>beforeEach</code> and <code>afterEach</code></p>
+    	<ul>
+    		<li>Set the stage</li>
+	    	<li>Let the players play their parts</li>
+			<li>Tear down the stage</li>    	
+    	</ul>
+    </section>
+    <section>
+    	<h2>example</h2>
+    	<pre><code>describe("An instance of a Backbone Model", function() { 
+  var myModelInstance;
 
+  beforeEach(function() {
+    myModelInstance = new MyModel();
+  });
+
+  it("should have an initialize method", function() {
+    expect(myModelInstance.initialize).toBeDefined();
+  });
+});</code></pre>
+    </section>
+    <section>
+    	<h2>Testing Models</h2>
+    </section>
     </div>
 	</div>
 	<script src="lib/reveal.js-2.6.1/lib/js/head.min.js"></script>
