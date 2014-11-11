@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+
+	<title>Jasmine Testing for Backbone.js Models and Views</title>
+
+	<meta name="description" content="Behavior-driven development with Jasmine testing enables developers to create thoughtful software design. Testing helps us match code to expectation, and communicates our intentions to other developers. When coupled with Backbone.js, Jasmine can become a powerful tool in ensuring the scalability of our web application. In addition, testing on Views in the browser helps us find bugs before the effort of visual QA. This session will cover a breakdown of how to approach Jasmine testing for Backbone.js Models and Views, how Jasmine testing works with instantiating new Models and Views, and how to trigger and test custom events and their callbacks.">
+	<meta name="author" content="Brenda Jin">
+
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<link rel="stylesheet" href="lib/reveal.js-2.6.1/css/reveal.min.css">
+	<link rel="stylesheet" href="lib/reveal.js-2.6.1/css/theme/default.css" id="theme">
+
+	<!-- For syntax highlighting -->
+	<link rel="stylesheet" href="lib/zenburn.css">
+
+	<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+	<link rel="stylesheet" href="lib/reveal.js-2.6.1/css/print/paper.css" type="text/css" media="print">
+
+	<!--[if lt IE 9]>
+	<script src="lib/js/html5shiv.js"></script>
+	<![endif]-->
+	<script data-main="main" src="/lib/require.js"></script>
+</head>
+
+<body>
+	<div class="reveal">
+    <div class="slides">
+
+    <section>
+        <h1>Jasmine Testing</h1>
+        <h2>Backbone.js Models and Views</h2>
+        <p><a href="http://brendajin.github.io/jb">http://brendajin.github.io/jb</a></p>
+    	<p>Brenda Jin <a href="http://www.twitter.com/cyberneticlove">@cyberneticlove</a></p>
+    	<aside class="notes">Sr UI Developer at Macys.com, passionate about humans and machines.</aside>
+    </section>
+    <section>
+    	<h2>Why test?</h2>
+    	<ul>
+    		<li>set expectations</li>
+    		<li>think through the steps</li>
+    		<li>break down the pieces</li>
+    		<li>encourage modularity and stability</li>
+    		<li>ensure ease of upgrades and deprecations</li>
+    	</ul>
+    </section>
+
+    </div>
+	</div>
+	<script src="lib/reveal.js-2.6.1/lib/js/head.min.js"></script>
+	<script src="lib/reveal.js-2.6.1/js/reveal.min.js"></script>
+	<script>
+		// Full list of configuration options available here:
+		// https://github.com/hakimel/reveal.js#configuration
+		Reveal.initialize({
+			controls: true,
+			progress: true,
+			history: true,
+			center: true,
+			fragments: true,
+
+			theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+			transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+			// Syntax highlight for <code> elements
+			dependencies: [
+		        // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+		        { src: 'lib/reveal.js-2.6.1/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+				{ src: 'lib/reveal.js-2.6.1/plugin/highlight/highlight.js', async: true, callback: function() { 
+					hljs.initHighlightingOnLoad();
+				} },
+				{ src: 'lib/reveal.js-2.6.1/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+				{ src: 'lib/reveal.js-2.6.1/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+			]
+		});
+
+	</script>
+</body>
