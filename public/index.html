@@ -49,7 +49,8 @@
     	<h2>Why test?</h2>
 	</section>
 	<section>
-		<h3>Code is for people</h3>
+		<h3>Code is for humans</h3>
+		<h4>(and so are the bugs)</h4>
     	<ul>
     		<li>set expectations</li>
     		<li>think through the steps</li>
@@ -68,14 +69,20 @@
 	<section>
 		<h3>example</h3>
     	<p>In your spec file</p>
-    	<pre><code>describe("A Backbone Model", function() {
-  it("should have an initialize method", function() {
-    expect(myModel.initialize).toBeDefined();
+    	<pre><code>describe("Tests for a custom Backbone Model", function() {
+  var myModelInstance;
+
+  it("can have a custom method called calculateAge", function() {
+    myModelInstance = new StoreModel();
+    expect(myModelInstance.calculateAge).toBeDefined();
   });
 });</code></pre>
 		<p>In your src file</p>
-		<pre><code>var MyModel = Backbone.Model.extend(),
-    myModel = new MyModel();</code></pre>
+		<pre><code>var StoreModel = Backbone.Model.extend({
+  calculateAge: function() {
+    ...
+  }
+});</code></pre>
     </section>
     <section>
     	<h2><a href="http://jasmine.github.io/" target="_blank">Jasmine</a></h2>
@@ -88,20 +95,115 @@
     </section>
     <section>
     	<h2>example</h2>
-    	<pre><code>describe("An instance of a Backbone Model", function() { 
+    	<pre><code>describe("Tests for a custom Backbone Model", function() {
   var myModelInstance;
 
   beforeEach(function() {
-    myModelInstance = new MyModel();
+    myModelInstance = new StoreModel({
+      yearFounded: 1858
+    });
   });
 
-  it("should have an initialize method", function() {
-    expect(myModelInstance.initialize).toBeDefined();
+  it("can have a custom method called calculateAge", function() {
+    expect(myModelInstance.calculateAge).toBeDefined();
   });
 });</code></pre>
     </section>
     <section>
     	<h2>Testing Models</h2>
+    </section>
+    <section>
+    	<h3>Building blocks</h3>
+    	<ol>
+    		<li>defaults and methods</li>
+    		<li>initialization process</li>
+    		<li>control flow</li>
+    		<li>events and callbacks</li>
+    	</ol>
+    </section>
+    <section>
+    	<h3>Defaults</h3>
+		<p>Make sure expected defaults exist</p>
+    	<pre><code>describe("A custom Backbone Model", function() {
+  var myModelInstance;
+
+  it("can have default properties such as brandName, website, yearFounded, 
+  and isDepartmentStore", function() {
+    expect(myModelInstance.defaults).toBeDefined();
+    expect(myModelInstance.defaults.brandName).toBeDefined();
+    expect(myModelInstance.defaults.website).toBeDefined();
+    expect(myModelInstance.defaults.yearFounded).toBeDefined();
+    expect(myModelInstance.defaults.isDepartmentStore).toBeDefined();
+  });
+});</code></pre>
+		<p>Tip: when you are setting defaults, think about how the absence of a property will be rendered in a template.</p>
+  </section>
+  <section>
+	  	<h3>Methods</h3>
+	  	<p>Make sure they exist</p>
+	  	<pre><code>it("can have a custom method called calculateAge", function() {
+  myModelInstance = new StoreModel();
+  expect(myModelInstance.calculateAge).toBeDefined();
+});</code></pre>
+		<p>And make sure they do the right thing</p>
+		<pre><code>it("will set the age after calculateAge is called", function() {
+  myModelInstance.calculateAge();
+  expect(myModelInstance.get('age')).toBeDefined();
+  expect(myModelInstance.get('age')).toEqual((new Date().getFullYear())
+   - myModelInstance.get('yearFounded'));
+});</code></pre>
+    </section>
+    <section>
+    	<h3>Initialization Process</h3>
+    	<p>Use spies to make sure the right initialization steps are taken</p>
+    	<pre><code>it("can check to see if models are instantiated correctly", function() {
+  spyOn(myModelInstance, 'calculateAge');
+  myModelInstance.initialize();
+  expect(myModelInstance.calculateAge).toHaveBeenCalled();
+});</code></pre>
+    </section>
+    <section>
+    	<h3>Control Flow</h3>
+    	<p>Similar to initialization, you can use spies to test control flow</p>
+    	<pre><code>it("can make sure that fetchDepartments is called with the 
+correct arguments when instantiated, but only if isDepartmentStore
+is true", function() {
+  spyOn(Macys, 'fetchDepartments');
+  Macys.initialize();
+  Macys.set('isDepartmentStore', false);
+  Macys.initialize();
+  expect(Macys.fetchDepartments.calls.count()).toEqual(1);
+});</code></pre>
+    </section>
+    <section>
+    	<h3>Events and Callbacks</h3>
+    	<p>Make sure that custom or built-in events are triggered correctly using spies for event listeners in the spec</p>
+    	<pre><code>it("can test Model events using spies in the spec", function() {
+  var myObject = {
+    aFakeCallback: function() {
+      return true;
+    }
+  }
+
+  spyOn(myObject, 'aFakeCallback');
+  Macys.on('customEvent', myObject.aFakeCallback);
+
+  Macys.triggerCustomEvent();
+  expect(myObject.aFakeCallback).toHaveBeenCalled();
+});</code></pre>
+    </section>
+    <section>
+    	<h2>Testing Views</h2>
+    </section>
+    <section>
+    	<h3>Building blocks</h3>
+    	<ol>
+    		<li>DOM events and callbacks</li>
+    		<li>custom methods</li>
+    		<li>initialization process</li>
+    		<li>control flow</li>
+    		<li>interaction with model/collection</li>
+    	</ol>
     </section>
     </div>
 	</div>
