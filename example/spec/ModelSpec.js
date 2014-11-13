@@ -1,8 +1,8 @@
 describe("Tests for a custom Backbone Model", function() {
-  var Macys;
+  var macys;
 
   beforeEach(function() {
-    Macys = new StoreModel({
+    macys = new StoreModel({
       brandName: 'macys',
       website: 'http://www.macys.com',
       yearFounded: 1858,
@@ -11,39 +11,39 @@ describe("Tests for a custom Backbone Model", function() {
   })
 
   it("can have default properties such as brandName, website, yearFounded, and isDepartmentStore", function() {
-    expect(Macys.defaults).toBeDefined();
-    expect(Macys.defaults.brandName).toBeDefined();
-    expect(Macys.defaults.website).toBeDefined();
-    expect(Macys.defaults.yearFounded).toBeDefined();
-    expect(Macys.defaults.isDepartmentStore).toBeDefined();
+    expect(macys.defaults).toBeDefined();
+    expect(macys.defaults.brandName).toBeDefined();
+    expect(macys.defaults.website).toBeDefined();
+    expect(macys.defaults.yearFounded).toBeDefined();
+    expect(macys.defaults.isDepartmentStore).toBeDefined();
   });
 
   it("can have a custom method called calculateAge", function() {
-    expect(Macys.calculateAge).toBeDefined();
+    expect(macys.calculateAge).toBeDefined();
   });
 
   it("can have a custom method called fetchDepartments", function() {
-    expect(Macys.fetchDepartments).toBeDefined();
+    expect(macys.fetchDepartments).toBeDefined();
   });
 
   it("will set the age after calculateAge is called", function() {
-    Macys.calculateAge();
-    expect(Macys.get('age')).toBeDefined();
-    expect(Macys.get('age')).toEqual((new Date().getFullYear()) - Macys.get('yearFounded'));
+    macys.calculateAge();
+    expect(macys.get('age')).toBeDefined();
+    expect(macys.get('age')).toEqual((new Date().getFullYear()) - macys.get('yearFounded'));
   });
 
   it("can make sure that calculateAge is called when instantiated", function() {
-    spyOn(Macys, 'calculateAge');
-    Macys.initialize();
-    expect(Macys.calculateAge).toHaveBeenCalled();
+    spyOn(macys, 'calculateAge');
+    macys.initialize();
+    expect(macys.calculateAge).toHaveBeenCalled();
   });
 
   it("can make sure that fetchDepartments is called with the correct arguments when instantiated, but only if isDepartmentStore is true", function() {
-    spyOn(Macys, 'fetchDepartments');
-    Macys.initialize();
-    Macys.set('isDepartmentStore', false);
-    Macys.initialize();
-    expect(Macys.fetchDepartments.calls.count()).toEqual(1);
+    spyOn(macys, 'fetchDepartments');
+    macys.initialize();
+    macys.set('isDepartmentStore', false);
+    macys.initialize();
+    expect(macys.fetchDepartments.calls.count()).toEqual(1);
   });
 
   it("can test Model events using spies in the spec", function() {
@@ -54,9 +54,9 @@ describe("Tests for a custom Backbone Model", function() {
     }
 
     spyOn(myObject, 'aFakeCallback');
-    Macys.on('customEvent', myObject.aFakeCallback);
+    macys.on('customEvent', myObject.aFakeCallback);
 
-    Macys.triggerCustomEvent();
+    macys.triggerCustomEvent();
     expect(myObject.aFakeCallback).toHaveBeenCalled();
   });
 });

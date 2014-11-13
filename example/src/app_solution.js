@@ -23,3 +23,20 @@ var StoreModel = Backbone.Model.extend({
 		this.trigger('customEvent');
 	}
 });
+
+var StoreView = Backbone.View.extend({
+	events: {
+		'click ul li': 'clickCallback'
+	},
+	clickCallback: function() {
+		this.$('ul').append('<li>');
+		return this;
+	},
+	initialize: function() {
+		this.listenTo(this.model, 'change', this.render);
+	},
+	render: function() {
+		this.$el.append('<ul><li></li></ul>');
+		return this;
+	}
+});

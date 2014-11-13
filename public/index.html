@@ -35,7 +35,7 @@
         <h2>Backbone.js Models and Views</h2>
         <p><a href="http://brendajin.github.io/jb">http://brendajin.github.io/jb</a></p>
     	<p>Brenda Jin <a href="http://www.twitter.com/cyberneticlove">@cyberneticlove</a></p>
-    	<aside class="notes">Sr UI Developer at Macys.com, passionate about humans and machines.</aside>
+    	<aside class="notes">Sr UI Developer at macys.com, passionate about humans and machines.</aside>
     </section>
     <section>
     	<h2>Overview</h2>
@@ -115,6 +115,7 @@
     <section>
     	<h3>Building blocks</h3>
     	<ol>
+    		<li>set up and instantiate</li>
     		<li>defaults and methods</li>
     		<li>initialization process</li>
     		<li>control flow</li>
@@ -122,19 +123,31 @@
     	</ol>
     </section>
     <section>
+    	<h3>Set Up and Instantiate</h3>
+    	<p>Define your variable in a scope that makes sense for your specs, then either instantiate per test or in a <code>beforeEach()</code> block</p>
+    	<pre><code>describe("Tests for a custom Backbone Model", function() {
+  var macys;
+
+  beforeEach(function() {
+    macys = new StoreModel({
+      brandName: 'macys',
+      website: 'http://www.macys.com',
+      yearFounded: 1858,
+      isDepartmentStore: true
+    });
+  })
+  ...</code></pre>
+    </section>
+    <section>
     	<h3>Defaults</h3>
 		<p>Make sure expected defaults exist</p>
-    	<pre><code>describe("A custom Backbone Model", function() {
-  var myModelInstance;
-
-  it("can have default properties such as brandName, website, yearFounded, 
-  and isDepartmentStore", function() {
-    expect(myModelInstance.defaults).toBeDefined();
-    expect(myModelInstance.defaults.brandName).toBeDefined();
-    expect(myModelInstance.defaults.website).toBeDefined();
-    expect(myModelInstance.defaults.yearFounded).toBeDefined();
-    expect(myModelInstance.defaults.isDepartmentStore).toBeDefined();
-  });
+    	<pre><code>it("can have default properties such as brandName, website, yearFounded, 
+and isDepartmentStore", function() {
+  expect(myModelInstance.defaults).toBeDefined();
+  expect(myModelInstance.defaults.brandName).toBeDefined();
+  expect(myModelInstance.defaults.website).toBeDefined();
+  expect(myModelInstance.defaults.yearFounded).toBeDefined();
+  expect(myModelInstance.defaults.isDepartmentStore).toBeDefined();
 });</code></pre>
 		<p>Tip: when you are setting defaults, think about how the absence of a property will be rendered in a template.</p>
   </section>
@@ -168,11 +181,11 @@
     	<pre><code>it("can make sure that fetchDepartments is called with the 
 correct arguments when instantiated, but only if isDepartmentStore
 is true", function() {
-  spyOn(Macys, 'fetchDepartments');
-  Macys.initialize();
-  Macys.set('isDepartmentStore', false);
-  Macys.initialize();
-  expect(Macys.fetchDepartments.calls.count()).toEqual(1);
+  spyOn(macys, 'fetchDepartments');
+  macys.initialize();
+  macys.set('isDepartmentStore', false);
+  macys.initialize();
+  expect(macys.fetchDepartments.calls.count()).toEqual(1);
 });</code></pre>
     </section>
     <section>
@@ -186,9 +199,9 @@ is true", function() {
   }
 
   spyOn(myObject, 'aFakeCallback');
-  Macys.on('customEvent', myObject.aFakeCallback);
+  macys.on('customEvent', myObject.aFakeCallback);
 
-  Macys.triggerCustomEvent();
+  macys.triggerCustomEvent();
   expect(myObject.aFakeCallback).toHaveBeenCalled();
 });</code></pre>
     </section>
@@ -198,6 +211,7 @@ is true", function() {
     <section>
     	<h3>Building blocks</h3>
     	<ol>
+    		<li>set up and instantiate</li>
     		<li>DOM events and their callbacks</li>
     		<li>interaction with model/collection</li>
     		<li>functional DOM changes</li>
@@ -205,15 +219,62 @@ is true", function() {
     	<p>(In addition to similarities with models like custom methods, initialization, control flow, and custom events)</p>
     </section>
     <section>
+    	<h3>Set Up and Instantiate</h3>
+    	<pre><code>describe("Tests for a custom Backbone Model", function() {
+  var macys, macysView;
+
+  beforeEach(function() {
+		macys = new StoreModel({
+      brandName: 'macys',
+      website: 'http://www.macys.com',
+      yearFounded: 1858,
+      isDepartmentStore: true
+    });
+
+    macysView = new StoreView({
+      model: macys
+    });
+  });
+  ...</code></pre>
+    </section>
+    <section>
     	<h3>DOM events and callbacks</h3>
     	<p>Use object bracket notation to check events and their callbacks</p>
-    	<pre><code></code></pre>
+    	<pre><code>it("can test for default events like a ul click", function() {
+ expect(macysView.events['click ul li']).toBeDefined();
+ expect(macysView.events['click ul li']).toEqual('clickCallback');
+});</code></pre>
+		<p>Then, test the functionality of each callback</p>
     </section>
     <section>
     	<h3>Interaction with a model/collection</h3>
+    	<p>You can test a View's reaction to data changes</p>
+    	<pre><code>// in beforeEach
+spyOn(StoreView.prototype, 'render').and.callThrough();</code></pre>
+		<pre><code>// in your spec
+it("can test for reactions to Model-level events", function() {
+  macys.set('isDepartmentStore', false);
+  expect(macysView.render).toHaveBeenCalled();
+});</code></pre>
     </section>
     <section>
-    	<h3></h3>
+    	<h3>Functional DOM changes</h3>
+    	<p></p>
+    	<pre><code>it("can test for functional DOM changes", function() {
+  var oldLength, newLength; 
+
+  $('body').append(macysView.render().$el);
+  
+  oldLength = macysView.$('li').length;
+
+  macysView.$('ul li').click();
+  
+  newLength = macysView.$('li').length;
+
+  expect(newLength - oldLength).toEqual(1);
+
+  macysView.remove();
+});</code></pre>
     </section>
     </div>
 	</div>
