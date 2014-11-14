@@ -2,7 +2,7 @@ var express 		= require('express'),
 	app 			= express(),
 	fs				= require('fs'), 
 	archiver		= require('archiver'),
-	exampleName 	= 'jasmine-backbone-example.zip',
+	exampleName 	= 'example.zip',
 	output 			= fs.createWriteStream(exampleName),
 	zip				= archiver('zip');
 
