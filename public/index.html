@@ -70,11 +70,11 @@
 		<h3>example</h3>
     	<p>In your spec file</p>
     	<pre><code>describe("Tests for a custom Backbone Model", function() {
-  var myModelInstance;
+  var macys;
 
   it("can have a custom method called calculateAge", function() {
-    myModelInstance = new StoreModel();
-    expect(myModelInstance.calculateAge).toBeDefined();
+    macys = new StoreModel();
+    expect(macys.calculateAge).toBeDefined();
   });
 });</code></pre>
 		<p>In your src file</p>
@@ -96,16 +96,16 @@
     <section>
     	<h2>example</h2>
     	<pre><code>describe("Tests for a custom Backbone Model", function() {
-  var myModelInstance;
+  var macys;
 
   beforeEach(function() {
-    myModelInstance = new StoreModel({
+    macys = new StoreModel({
       yearFounded: 1858
     });
   });
 
   it("can have a custom method called calculateAge", function() {
-    expect(myModelInstance.calculateAge).toBeDefined();
+    expect(macys.calculateAge).toBeDefined();
   });
 });</code></pre>
     </section>
@@ -148,11 +148,11 @@
 		<p>Make sure expected defaults exist</p>
     	<pre><code>it("can have default properties such as brandName, website, yearFounded, 
 and isDepartmentStore", function() {
-  expect(myModelInstance.defaults).toBeDefined();
-  expect(myModelInstance.defaults.brandName).toBeDefined();
-  expect(myModelInstance.defaults.website).toBeDefined();
-  expect(myModelInstance.defaults.yearFounded).toBeDefined();
-  expect(myModelInstance.defaults.isDepartmentStore).toBeDefined();
+  expect(macys.defaults).toBeDefined();
+  expect(macys.defaults.brandName).toBeDefined();
+  expect(macys.defaults.website).toBeDefined();
+  expect(macys.defaults.yearFounded).toBeDefined();
+  expect(macys.defaults.isDepartmentStore).toBeDefined();
 });</code></pre>
 		<p>Tip: when you are setting defaults, think about how the absence of a property will be rendered in a template.</p>
   </section>
@@ -160,36 +160,40 @@ and isDepartmentStore", function() {
 	  	<h3>Methods</h3>
 	  	<p>Make sure they exist</p>
 	  	<pre><code>it("can have a custom method called calculateAge", function() {
-  myModelInstance = new StoreModel();
-  expect(myModelInstance.calculateAge).toBeDefined();
+  expect(macys.calculateAge).toBeDefined();
 });</code></pre>
 		<p>And make sure they do the right thing</p>
 		<pre><code>it("will set the age after calculateAge is called", function() {
-  myModelInstance.calculateAge();
-  expect(myModelInstance.get('age')).toBeDefined();
-  expect(myModelInstance.get('age')).toEqual((new Date().getFullYear())
-   - myModelInstance.get('yearFounded'));
+  macys.calculateAge();
+  expect(macys.get('age')).toBeDefined();
+  expect(macys.get('age')).toEqual((new Date().getFullYear())
+   - macys.get('yearFounded'));
 });</code></pre>
     </section>
     <section>
     	<h3>Initialization Process</h3>
     	<p>Use spies to make sure the right initialization steps are taken</p>
     	<pre><code>it("can check to see if models are instantiated correctly", function() {
-  spyOn(myModelInstance, 'calculateAge');
-  myModelInstance.initialize();
-  expect(myModelInstance.calculateAge).toHaveBeenCalled();
+  spyOn(macys, 'calculateAge');
+  macys.initialize();
+  expect(macys.calculateAge).toHaveBeenCalled();
 });</code></pre>
     </section>
     <section>
     	<h3>Control Flow</h3>
     	<p>Similar to initialization, you can use spies to test control flow</p>
     	<pre><code>it("can make sure that fetchDepartments is called with the 
-correct arguments when instantiated, but only if isDepartmentStore
+when instantiated, but only if isDepartmentStore
 is true", function() {
   spyOn(macys, 'fetchDepartments');
+
+  // remember isDepartmentStore was set to true
   macys.initialize();
+  expect(macys.fetchDepartments).toHaveBeenCalled();
+
   macys.set('isDepartmentStore', false);
   macys.initialize();
+
   expect(macys.fetchDepartments.calls.count()).toEqual(1);
 });</code></pre>
     </section>

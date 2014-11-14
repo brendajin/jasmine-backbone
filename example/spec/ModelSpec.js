@@ -38,9 +38,15 @@ describe("Tests for a custom Backbone Model", function() {
     expect(macys.calculateAge).toHaveBeenCalled();
   });
 
-  it("can make sure that fetchDepartments is called with the correct arguments when instantiated, but only if isDepartmentStore is true", function() {
+  it("can make sure that fetchDepartments is called when instantiated, but only if isDepartmentStore is true", function() {
     spyOn(macys, 'fetchDepartments');
+
+
+    console.log(macys.get('isDepartmentStore'))
+    // remember isDepartmentStore was set to true
     macys.initialize();
+    expect(macys.fetchDepartments).toHaveBeenCalled();
+
     macys.set('isDepartmentStore', false);
     macys.initialize();
     expect(macys.fetchDepartments.calls.count()).toEqual(1);
