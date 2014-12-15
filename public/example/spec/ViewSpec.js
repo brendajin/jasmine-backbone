@@ -1,6 +1,5 @@
-describe("Tests for a custom Backbone Model", function() {
-  var macys,
-  	macysView;
+describe("Tests for a custom Backbone View", function() {
+  var   macys, macysView;
 
   beforeEach(function() {
 		macys = new StoreModel({
@@ -17,7 +16,7 @@ describe("Tests for a custom Backbone Model", function() {
     });
   });
 
-  it("can test for default events like a ul click", function() {
+  it("can test for events like a ul li click", function() {
   	expect(macysView.events['click ul li']).toBeDefined();
   	expect(macysView.events['click ul li']).toEqual('clickCallback');
   });

@@ -21,11 +21,7 @@ describe("Tests for a custom Backbone Model", function() {
   it("can have a custom method called calculateAge", function() {
     expect(macys.calculateAge).toBeDefined();
   });
-
-  it("can have a custom method called fetchDepartments", function() {
-    expect(macys.fetchDepartments).toBeDefined();
-  });
-
+  
   it("will set the age after calculateAge is called", function() {
     macys.calculateAge();
     expect(macys.get('age')).toBeDefined();
@@ -38,11 +34,14 @@ describe("Tests for a custom Backbone Model", function() {
     expect(macys.calculateAge).toHaveBeenCalled();
   });
 
+
+  it("can have a custom method called fetchDepartments", function() {
+    expect(macys.fetchDepartments).toBeDefined();
+  });
+
   it("can make sure that fetchDepartments is called when instantiated, but only if isDepartmentStore is true", function() {
     spyOn(macys, 'fetchDepartments');
 
-
-    console.log(macys.get('isDepartmentStore'))
     // remember isDepartmentStore was set to true
     macys.initialize();
     expect(macys.fetchDepartments).toHaveBeenCalled();
