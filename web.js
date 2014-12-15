@@ -6,7 +6,7 @@ var express 		= require('express'),
 process.env.PWD = process.cwd();
 
 app.get('/example', function( req, res ) {
-	res.download( __dirname + '/' + exampleName );
+	res.download( __dirname + '/example.zip' );
 });
 
 app.configure( function () {
