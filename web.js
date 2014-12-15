@@ -5,14 +5,6 @@ var express 		= require('express'),
 //function for heroku
 process.env.PWD = process.cwd();
 
-// zip.pipe(output);
-
-// zip.bulk([
-// 	{ expand: true, src: ['example/*'], cwd: 'public/', dest: '.' }
-// ]);
-
-// zip.finalize();
-
 app.get('/example', function( req, res ) {
 	res.download( __dirname + '/' + exampleName );
 });
